@@ -43,6 +43,7 @@
             this.btnEnter = new System.Windows.Forms.Button();
             this.turnTimer = new System.Windows.Forms.Timer(this.components);
             this.lblMessage = new System.Windows.Forms.Label();
+            this.tmrAnimationEnemy = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbxPlayer)).BeginInit();
             this.pnlPlayer.SuspendLayout();
             this.pnlEnemy.SuspendLayout();
@@ -55,7 +56,7 @@
             this.pbxPlayer.BackColor = System.Drawing.Color.Transparent;
             this.pbxPlayer.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pbxPlayer.InitialImage = null;
-            this.pbxPlayer.Location = new System.Drawing.Point(3, 3);
+            this.pbxPlayer.Location = new System.Drawing.Point(0, 0);
             this.pbxPlayer.Name = "pbxPlayer";
             this.pbxPlayer.Size = new System.Drawing.Size(61, 122);
             this.pbxPlayer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -66,18 +67,19 @@
             // 
             this.pnlPlayer.BackColor = System.Drawing.Color.Transparent;
             this.pnlPlayer.Controls.Add(this.pbxPlayer);
-            this.pnlPlayer.Location = new System.Drawing.Point(481, 262);
+            this.pnlPlayer.Location = new System.Drawing.Point(456, 208);
             this.pnlPlayer.Name = "pnlPlayer";
-            this.pnlPlayer.Size = new System.Drawing.Size(64, 128);
+            this.pnlPlayer.Size = new System.Drawing.Size(96, 192);
             this.pnlPlayer.TabIndex = 1;
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(39, 56);
+            this.btnTest.Font = new System.Drawing.Font("Courier New", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTest.Location = new System.Drawing.Point(465, 25);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 23);
+            this.btnTest.Size = new System.Drawing.Size(157, 48);
             this.btnTest.TabIndex = 2;
-            this.btnTest.Text = "Test";
+            this.btnTest.Text = "start";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
@@ -89,9 +91,9 @@
             // 
             this.pnlEnemy.BackColor = System.Drawing.Color.Transparent;
             this.pnlEnemy.Controls.Add(this.pbxEnemy);
-            this.pnlEnemy.Location = new System.Drawing.Point(593, 265);
+            this.pnlEnemy.Location = new System.Drawing.Point(558, 208);
             this.pnlEnemy.Name = "pnlEnemy";
-            this.pnlEnemy.Size = new System.Drawing.Size(64, 128);
+            this.pnlEnemy.Size = new System.Drawing.Size(96, 192);
             this.pnlEnemy.TabIndex = 2;
             // 
             // pbxEnemy
@@ -99,7 +101,7 @@
             this.pbxEnemy.BackColor = System.Drawing.Color.Transparent;
             this.pbxEnemy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pbxEnemy.InitialImage = null;
-            this.pbxEnemy.Location = new System.Drawing.Point(3, 6);
+            this.pbxEnemy.Location = new System.Drawing.Point(0, 0);
             this.pbxEnemy.Name = "pbxEnemy";
             this.pbxEnemy.Size = new System.Drawing.Size(61, 122);
             this.pbxEnemy.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -113,40 +115,40 @@
             // 
             // prgPlayerHealth
             // 
-            this.prgPlayerHealth.Location = new System.Drawing.Point(468, 221);
+            this.prgPlayerHealth.Location = new System.Drawing.Point(456, 179);
             this.prgPlayerHealth.Name = "prgPlayerHealth";
-            this.prgPlayerHealth.Size = new System.Drawing.Size(100, 23);
+            this.prgPlayerHealth.Size = new System.Drawing.Size(96, 23);
             this.prgPlayerHealth.TabIndex = 4;
             // 
             // prgEnemyHealth
             // 
-            this.prgEnemyHealth.Location = new System.Drawing.Point(593, 221);
+            this.prgEnemyHealth.Location = new System.Drawing.Point(558, 179);
             this.prgEnemyHealth.Name = "prgEnemyHealth";
-            this.prgEnemyHealth.Size = new System.Drawing.Size(100, 23);
+            this.prgEnemyHealth.Size = new System.Drawing.Size(96, 23);
             this.prgEnemyHealth.TabIndex = 5;
             // 
             // lblSom
             // 
             this.lblSom.AutoSize = true;
-            this.lblSom.Font = new System.Drawing.Font("NSimSun", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSom.Location = new System.Drawing.Point(161, 127);
+            this.lblSom.Font = new System.Drawing.Font("Courier New", 36F, System.Drawing.FontStyle.Bold);
+            this.lblSom.Location = new System.Drawing.Point(12, 203);
             this.lblSom.Name = "lblSom";
-            this.lblSom.Size = new System.Drawing.Size(245, 48);
+            this.lblSom.Size = new System.Drawing.Size(284, 54);
             this.lblSom.TabIndex = 6;
             this.lblSom.Text = "1 x 1 = ?";
             // 
             // tbxInput
             // 
-            this.tbxInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbxInput.Location = new System.Drawing.Point(430, 131);
+            this.tbxInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F);
+            this.tbxInput.Location = new System.Drawing.Point(302, 195);
             this.tbxInput.MaxLength = 2;
             this.tbxInput.Name = "tbxInput";
-            this.tbxInput.Size = new System.Drawing.Size(77, 44);
+            this.tbxInput.Size = new System.Drawing.Size(77, 62);
             this.tbxInput.TabIndex = 7;
             // 
             // btnEnter
             // 
-            this.btnEnter.Location = new System.Drawing.Point(513, 147);
+            this.btnEnter.Location = new System.Drawing.Point(308, 261);
             this.btnEnter.Name = "btnEnter";
             this.btnEnter.Size = new System.Drawing.Size(75, 23);
             this.btnEnter.TabIndex = 8;
@@ -162,12 +164,17 @@
             // lblMessage
             // 
             this.lblMessage.AutoSize = true;
-            this.lblMessage.Font = new System.Drawing.Font("NSimSun", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMessage.Location = new System.Drawing.Point(161, 31);
+            this.lblMessage.BackColor = System.Drawing.Color.Transparent;
+            this.lblMessage.Font = new System.Drawing.Font("Courier New", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMessage.Location = new System.Drawing.Point(28, 25);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(295, 48);
+            this.lblMessage.Size = new System.Drawing.Size(429, 54);
             this.lblMessage.TabIndex = 9;
-            this.lblMessage.Text = "Player turn";
+            this.lblMessage.Text = "Press Start ->";
+            // 
+            // tmrAnimationEnemy
+            // 
+            this.tmrAnimationEnemy.Tick += new System.EventHandler(this.tmrAnimationEnemy_Tick);
             // 
             // Form1
             // 
@@ -214,6 +221,7 @@
         private System.Windows.Forms.TextBox tbxInput;
         private System.Windows.Forms.Timer turnTimer;
         private System.Windows.Forms.Label lblMessage;
+        private System.Windows.Forms.Timer tmrAnimationEnemy;
     }
 }
 

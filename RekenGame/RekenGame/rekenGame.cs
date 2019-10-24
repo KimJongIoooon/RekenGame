@@ -14,7 +14,7 @@ namespace RekenGame
         int Answer;
         public int HealthPlayer;
         public int HealthEnemy;
-        public bool TurnPlayer = false;
+        public bool TurnPlayer = true;
 
         public RekenGame()
         {

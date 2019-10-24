@@ -13,33 +13,28 @@ namespace RekenGame
     public partial class Form1 : Form
     {
         RekenGame game;
-        int animationNr = 0;
+        int animationNrPlayer = 0;
         int animationEndNr = 0;
+        Character player;
+        Character enemy;
         public Form1()
         {
-            game = new RekenGame();
-            
-            
             InitializeComponent();
-            displaySprite(animationNr);
+
+            game = new RekenGame();
+            player = new Character(false, true);
+            enemy = new Character(true, false);
             InitPlayerCharacter();
             InitEnemyCharacter();
         }
-        private void InitPlayerCharacter()
-        {
-            pnlPlayer.Size = new Size(64, 128);
-            pbxPlayer.Image = Properties.Resources.advnt_full;
-            pbxPlayer.Size = new Size(640, 1280);
-        }
-        private void InitEnemyCharacter()
-        {
-            pnlEnemy.Size = new Size(64, 128);
-            pbxEnemy.Image = Properties.Resources.skeletonBaseFlipped;
-            pbxEnemy.Size = new Size(640, 1280);
-        }
+        
 
         private void UpdateGui()
         {
+            if(game.TurnPlayer == true)
+            {
+                lblMessage.Text = "Attack!";
+            }
             prgEnemyHealth.Value = game.HealthEnemy;
             prgPlayerHealth.Value = game.HealthPlayer;
             lblSom.Text = $"{game.Number1.ToString()} * {game.Number2.ToString()} = ?";
@@ -50,19 +45,10 @@ namespace RekenGame
 
         }
 
-        private void displaySprite(int spriteNr)
-        {
-            int pbX = spriteNr % 10;
-            int spriteX = (spriteNr % 10) * -64;
-            int spriteY = ((spriteNr - pbX) / 10) * -128;
-            
-            pbxPlayer.Location = new Point(spriteX, spriteY);
-        }
-
         private void playerAnimationPunch1()
         {
             tmrAnimationPlayer.Start();
-            animationNr = 20;
+            animationNrPlayer = 20;
             animationEndNr = 24;
         }
         
@@ -73,18 +59,12 @@ namespace RekenGame
 
         private void tmrAnimationPlayer_Tick(object sender, EventArgs e)
         {
-            if (animationNr >= animationEndNr)
-            {
-                displaySprite(0);
-                tmrAnimationPlayer.Stop();
-            }
-            else
-            {
-                displaySprite(animationNr);
-                animationNr++;
-            }
-            
-            
+            pbxPlayer.Location = player.NextFrame();
+        }
+
+        private void tmrAnimationEnemy_Tick(object sender, EventArgs e)
+        {
+            pbxEnemy.Location = enemy.NextFrame();
         }
 
         private void btnEnter_Click(object sender, EventArgs e)
@@ -93,10 +73,14 @@ namespace RekenGame
             bool answeredCorrectly = game.SendAnswer(playerAnswer);
             if (game.TurnPlayer)
             {
-                playerAnimationPunch1();
+                //playerAnimationPunch1();
+               
+                player.StartAnimationPunch();
+                tmrAnimationPlayer.Start();
             } else
             {
-                playerAnimationPunch1();
+                enemy.StartAnimationPunch();
+                tmrAnimationEnemy.Start();
             }
             UpdateGui();
 
@@ -106,5 +90,24 @@ namespace RekenGame
         {
 
         }
+        private void InitPlayerCharacter()
+        {
+            pnlPlayer.Size = new Size(96, 192);
+            pbxPlayer.Image = Properties.Resources.advnt_full;
+            pbxPlayer.Size = new Size(960, 1920); 
+        }
+        private void InitEnemyCharacter()
+        {
+            pnlEnemy.Size = new Size(96, 192);
+            pbxEnemy.Image = Properties.Resources.skeletonBaseFlipped;
+            pbxEnemy.Size = new Size(960, 1920);
+            int spriteNr = 9;
+            int pbX = spriteNr % 10;
+            int spriteX = (spriteNr % 10) * -96;
+            int spriteY = ((spriteNr - pbX) / 10) * -192;
+            pbxEnemy.Location = new Point(spriteX, spriteY);
+        }
+
+
     }
 }
