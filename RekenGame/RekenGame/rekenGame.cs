@@ -14,11 +14,11 @@ namespace RekenGame
         int Answer;
         public int HealthPlayer;
         public int HealthEnemy;
-        public bool TurnPlayer = true;
+        public bool TurnPlayer = false;
 
         public RekenGame()
         {
-            NextSom();
+            NextTurn();
             HealthEnemy = 100;
             HealthPlayer = 100;
         }
@@ -27,27 +27,35 @@ namespace RekenGame
         {
 
         }
-        void NextSom()
+        public bool NextTurn()
         {
+            TurnPlayer = !TurnPlayer;
             Random random = new Random();
             Number1 = random.Next(2,9);
-            Number2 = random.Next(2, 9);
+            Number2 = random.Next(2,9);
             Answer = Number1 * Number2;
+            return TurnPlayer; 
         }
         public bool SendAnswer(int input)
         {
             bool correct = false;
+            
             if(Answer == input)
             {
-                HealthEnemy = HealthEnemy - 20;
+                if (TurnPlayer)
+                {
+                    HealthEnemy = HealthEnemy - 20;
+                }
+                
                 correct = true;
             } else
             {
-                HealthPlayer = HealthPlayer - 10;
+                if (!TurnPlayer)
+                {
+                    HealthPlayer = HealthPlayer - 10;
+                }
                 correct =  false;
             }
-
-            NextSom();
             return correct;
         }
     }

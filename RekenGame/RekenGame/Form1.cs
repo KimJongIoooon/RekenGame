@@ -13,10 +13,11 @@ namespace RekenGame
     public partial class Form1 : Form
     {
         RekenGame game;
-        int animationNrPlayer = 0;
-        int animationEndNr = 0;
+
+        int countDown = 5;
         Character player;
         Character enemy;
+        bool answered;
         public Form1()
         {
             InitializeComponent();
@@ -34,29 +35,51 @@ namespace RekenGame
             if(game.TurnPlayer == true)
             {
                 lblMessage.Text = "Attack!";
+            } else
+            {
+                lblMessage.Text = $"Counter the attack! {countDown}";
             }
-            prgEnemyHealth.Value = game.HealthEnemy;
-            prgPlayerHealth.Value = game.HealthPlayer;
-            lblSom.Text = $"{game.Number1.ToString()} * {game.Number2.ToString()} = ?";
+            if (game.HealthPlayer > 0 && game.HealthEnemy > 0)
+            {
+                prgEnemyHealth.Value = game.HealthEnemy;
+                prgPlayerHealth.Value = game.HealthPlayer;
+                lblSom.Text = $"{game.Number1.ToString()} * {game.Number2.ToString()} = ?";
+            } else
+            {
+                if(game.HealthEnemy <= 0)
+                {
+                    prgEnemyHealth.Value = 0;
+                }
+                if (game.HealthPlayer<= 0)
+                {
+                    prgPlayerHealth.Value = 0;
+                }
+                GameOver();
+            }
+        }
+        private void GameOver()
+        {
+            tmrCountDown.Stop();
+            tmrTurn.Stop();
+
+            btnEnter.Enabled = false;
+            if (game.HealthEnemy <= 0)
+            {
+                lblMessage.Text = "You Won!";
+                
+            }
+            if (game.HealthPlayer <= 0)
+            {
+                lblMessage.Text = "You Lost!";
+            }
         }
         private void btnTest_Click(object sender, EventArgs e)
         {
             UpdateGui();
+            btnTest.Visible = false;
 
-        }
-
-        private void playerAnimationPunch1()
-        {
-            tmrAnimationPlayer.Start();
-            animationNrPlayer = 20;
-            animationEndNr = 24;
         }
         
-        private void enemyAnimationPunch1()
-        {
-
-        }
-
         private void tmrAnimationPlayer_Tick(object sender, EventArgs e)
         {
             pbxPlayer.Location = player.NextFrame();
@@ -67,28 +90,65 @@ namespace RekenGame
             pbxEnemy.Location = enemy.NextFrame();
         }
 
-        private void btnEnter_Click(object sender, EventArgs e)
+        
+        private void SendAnswer()
         {
+            tmrCountDown.Stop();
             int playerAnswer = Convert.ToInt32(tbxInput.Text);
-            bool answeredCorrectly = game.SendAnswer(playerAnswer);
             if (game.TurnPlayer)
             {
                 //playerAnimationPunch1();
-               
+
                 player.StartAnimationPunch();
                 tmrAnimationPlayer.Start();
-            } else
+            }
+            else
             {
                 enemy.StartAnimationPunch();
                 tmrAnimationEnemy.Start();
             }
+            answered = true;
+            bool answeredCorrectly = game.SendAnswer(playerAnswer);
             UpdateGui();
 
+            if (answeredCorrectly)
+            {
+                if (game.TurnPlayer)
+                {
+                    lblMessage.Text = "You Hit the enemy!";
+                    
+                } else
+                {
+                    lblMessage.Text = "You Dodged the attack!";
+                } 
+            }
+            else
+            {
+                if (game.TurnPlayer)
+                {
+                    lblMessage.Text = "You missed!";
+                    
+                }
+                else
+                {
+                    lblMessage.Text = "You got hit!";
+                }
+            }
+            tmrTurn.Stop();
+            tmrTurn.Interval = 1300;
+            tmrTurn.Start();
         }
 
-        private void turnTimer_Tick(object sender, EventArgs e)
+        private void tmrTurn_Tick(object sender, EventArgs e)
         {
-
+            game.NextTurn();
+            answered = false;
+            if (!game.TurnPlayer)
+            {
+                tmrCountDown.Start();
+            }
+            tmrTurn.Stop();
+            UpdateGui();
         }
         private void InitPlayerCharacter()
         {
@@ -108,6 +168,24 @@ namespace RekenGame
             pbxEnemy.Location = new Point(spriteX, spriteY);
         }
 
-
+        private void TmrCountDown_Tick(object sender, EventArgs e)
+        {
+            countDown--;
+            if(countDown <= -1)
+            {
+                countDown = 5;
+                SendAnswer();
+                tmrCountDown.Stop();
+            }
+            else
+            {
+                UpdateGui();
+            }
+            
+        }
+        private void btnEnter_Click(object sender, EventArgs e)
+        {
+            SendAnswer();
+        }
     }
 }
